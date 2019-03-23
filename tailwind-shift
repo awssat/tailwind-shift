@@ -1,0 +1,78 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Awssat\TailwindShift\ConsoleHelper;
+
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require __DIR__ . '/vendor/autoload.php';
+} else {
+    require __DIR__ . '/../../autoload.php';
+}
+
+(new Application('tailwind-shift', '1.0.0'))
+
+    ->register('tailwind-shift')
+
+    ->addArgument('arg', InputArgument::OPTIONAL, 'a file path/a folder path/snippet of code')
+
+    ->addOption('replace', null, InputOption::VALUE_REQUIRED, 'This will overwrite the original file.', false)
+
+    ->addOption('recursive', 'r', InputOption::VALUE_OPTIONAL, 'This will recurse through all directories under the main directory', false)
+    ->addOption('fixconfig', 'x', InputOption::VALUE_OPTIONAL, 'This must be added if givem file is tailwind config file, to fix and update to latest version.', false)
+
+    ->addOption('extensions', 'e', InputOption::VALUE_REQUIRED, 'This allows for custom extensions', 'php,html,css')
+
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        // output arguments and options
+        $arg = $input->getFirstArgument();
+
+        $arg = trim($arg);
+
+        if (empty($arg)) {
+            $output->writeln('<comment>Oops! nothing to convert.</comment>');
+            return -1;
+        }
+
+
+        $replace = (bool)$input->getOption('replace');
+
+        $is_recursive = (bool)$input->getOption('recursive');
+
+        $fix_config = (bool)$input->getOption('fixconfig');
+
+        $acceptedExts = array_map('trim', array_map(function ($ext) {
+            return trim($ext, '.');
+        }, array_filter(explode(',', $input->getOption('extensions')), function ($ext) {
+            return !empty($ext);
+        })));
+
+        $consoleHelper = new ConsoleHelper($output, $is_recursive, $replace, $acceptedExts);
+
+        //file?
+        if (is_file($arg)) {
+            if ($fix_config) {
+                return $consoleHelper->fixTailwindConfig($arg);
+            } else {
+                return $consoleHelper->fileConvert($arg, pathinfo($arg)['extension'] ?? '');
+            }
+        }
+
+        //folder ?
+        if (is_dir($arg)) {
+            return $consoleHelper->folderConvert($arg);
+        }
+
+        //any html/css classes
+        return $consoleHelper->codeConvert($arg);
+    })
+
+    ->getApplication()
+
+    ->setDefaultCommand('tailwind-shift', true)
+
+    ->run();

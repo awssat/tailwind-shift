@@ -4,7 +4,6 @@ namespace Awssat\TailwindShift;
 
 class Updater
 {
-
     /** @var \Awssat\TailwindShift\SearchAndReplace */
     protected $searchAndReplace;
 
@@ -52,7 +51,6 @@ class Updater
         return $this;
     }
 
-
     /**
      * Run the conversion.
      *
@@ -86,18 +84,17 @@ class Updater
     }
 
     /**
-     * Convert to 1.0
+     * Convert to 1.0.
      *
      * @return null
      */
     protected function convertToVersion1_0()
     {
-        if($this->currentFileExtension == 'css')
-        {
+        if ($this->currentFileExtension == 'css') {
             $cssChanges = [
-                    '@tailwind\s*preflight;' => '@tailwind base;',
+                    '@tailwind\s*preflight;'                         => '@tailwind base;',
                     '\@import\s*("|\')tailwindcss\/preflight("|\');' => '@import "tailwindcss/base";',
-                    'config\(' => 'theme(',
+                    'config\('                                       => 'theme(',
             ];
 
             foreach ($cssChanges as $old => $new) {
@@ -108,39 +105,39 @@ class Updater
         }
 
         $classes = [
-                'list-reset' => 'list-none p-0',
-                'pin-none' => 'inset-auto',
-                'pin' => 'inset-0',
-                'pin-y' => 'inset-y-0',
-                'pin-x' => 'inset-x-0',
-                'pin-t' => 'top-0',
-                'pin-r' => 'right-0',
-                'pin-l' => 'left-0',
-                'pin-b' => 'bottom-0',
-                'roman' => 'not-italic',
-                'flex-no-grow' => 'flex-grow-0',
+                'list-reset'     => 'list-none p-0',
+                'pin-none'       => 'inset-auto',
+                'pin'            => 'inset-0',
+                'pin-y'          => 'inset-y-0',
+                'pin-x'          => 'inset-x-0',
+                'pin-t'          => 'top-0',
+                'pin-r'          => 'right-0',
+                'pin-l'          => 'left-0',
+                'pin-b'          => 'bottom-0',
+                'roman'          => 'not-italic',
+                'flex-no-grow'   => 'flex-grow-0',
                 'flex-no-shrink' => 'flex-shrink-0',
                 'flex-no-shrink' => 'flex-shrink-0',
-                'no-underline' => '',
+                'no-underline'   => '',
                 'tracking-tight' => 'tracking-tighter',
-                'tracking-wide' => 'tracking-wider',
+                'tracking-wide'  => 'tracking-wider',
 
                 //colors
-                '{regex_string}-grey' => '{regex_string}-grey-500',
-                '{regex_string}-red' => '{regex_string}-red-500',
-                '{regex_string}-orange' => '{regex_string}-orange-500',
-                '{regex_string}-yellow' => '{regex_string}-yellow-500',
-                '{regex_string}-green' => '{regex_string}-green-500',
-                '{regex_string}-teal' => '{regex_string}-teal-500',
-                '{regex_string}-blue' => '{regex_string}-blue-500',
-                '{regex_string}-indigo' => '{regex_string}-indigo-500',
-                '{regex_string}-purple' => '{regex_string}-purple-500',
-                '{regex_string}-pink' => '{regex_string}-pink-500',
-                '{regex_string}-{regex_string}-darkest' => '{regex_string}-{regex_string}-900',
-                '{regex_string}-{regex_string}-darker' => '{regex_string}-{regex_string}-800',
-                '{regex_string}-{regex_string}-dark' => '{regex_string}-{regex_string}-600',
-                '{regex_string}-{regex_string}-light' => '{regex_string}-{regex_string}-400',
-                '{regex_string}-{regex_string}-lighter' => '{regex_string}-{regex_string}-200',
+                '{regex_string}-grey'                    => '{regex_string}-grey-500',
+                '{regex_string}-red'                     => '{regex_string}-red-500',
+                '{regex_string}-orange'                  => '{regex_string}-orange-500',
+                '{regex_string}-yellow'                  => '{regex_string}-yellow-500',
+                '{regex_string}-green'                   => '{regex_string}-green-500',
+                '{regex_string}-teal'                    => '{regex_string}-teal-500',
+                '{regex_string}-blue'                    => '{regex_string}-blue-500',
+                '{regex_string}-indigo'                  => '{regex_string}-indigo-500',
+                '{regex_string}-purple'                  => '{regex_string}-purple-500',
+                '{regex_string}-pink'                    => '{regex_string}-pink-500',
+                '{regex_string}-{regex_string}-darkest'  => '{regex_string}-{regex_string}-900',
+                '{regex_string}-{regex_string}-darker'   => '{regex_string}-{regex_string}-800',
+                '{regex_string}-{regex_string}-dark'     => '{regex_string}-{regex_string}-600',
+                '{regex_string}-{regex_string}-light'    => '{regex_string}-{regex_string}-400',
+                '{regex_string}-{regex_string}-lighter'  => '{regex_string}-{regex_string}-200',
                 '{regex_string}-{regex_string}-lightest' => '{regex_string}-{regex_string}-100',
         ];
 
@@ -151,8 +148,8 @@ class Updater
 
         foreach ($classes as $beforeClass => $afterClass) {
             $this->searchAndReplace->perform(
-                    $beforeClass, 
-                    $afterClass, 
+                    $beforeClass,
+                    $afterClass,
                     SearchAndReplace::INSIDE_CLASSE_PROP
             );
         }

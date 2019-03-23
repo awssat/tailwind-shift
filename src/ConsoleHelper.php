@@ -104,12 +104,12 @@ class ConsoleHelper
             ->get();
 
         $lastDotPosition = strrpos($filePath, '.');
-    
+
         if ($lastDotPosition !== false && !$this->overwrite) {
             $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
         } elseif (!$this->overwrite) {
-            $newFilePath = $filePath.'.tw'; 
-          } else {
+            $newFilePath = $filePath.'.tw';
+        } else {
             // Set the new path to the old path to make sure we overwrite it
             $newFilePath = $filePath;
         }

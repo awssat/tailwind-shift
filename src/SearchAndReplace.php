@@ -108,7 +108,6 @@ class SearchAndReplace
         $currentSubstitute = 0;
 
         while (true) {
-
             if (strpos($search, '\{regex_string\}') !== false || strpos($search, '\{regex_number\}') !== false) {
                 $currentSubstitute++;
                 foreach (['regex_string'=> '[a-zA-Z0-9]+', 'regex_number' => '[0-9]+'] as $regeName => $regexValue) {
@@ -123,13 +122,13 @@ class SearchAndReplace
 
         //class=" given given-md something-given-md"
         $this->givenContent = preg_replace_callback(
-            '/'. $regexStart. '(?<given>(?<![\-_.\w\d])'. $search . '(?![\-_.\w\d]))'. $regexEnd. '/i',
+            '/'.$regexStart.'(?<given>(?<![\-_.\w\d])'.$search.'(?![\-_.\w\d]))'.$regexEnd.'/i',
             function ($match) use ($replace) {
                 $replace = preg_replace_callback('/\$\{regex_(\w+)_(\d+)\}/', function ($m) use ($match) {
-                    return $match['regex_'. $m[1]. '_'. $m[2]];
+                    return $match['regex_'.$m[1].'_'.$m[2]];
                 }, $replace);
 
-                return $match['start']. $replace. $match['end'];
+                return $match['start'].$replace.$match['end'];
             },
             $this->givenContent
         );

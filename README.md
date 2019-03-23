@@ -1,7 +1,7 @@
 # Tailwind Shift
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/awssat/tailwind-shift.svg?style=flat-square)](https://packagist.org/packages/awssat/tailwind-shift)
-[![StyleCI](https://styleci.io/repos/110390721/shield?branch=master)](https://styleci.io/repos/110390721)
+[![StyleCI](https://styleci.io/repos/177280907/shield?branch=master)](https://styleci.io/repos/177280907)
 [![Build Status](https://img.shields.io/travis/awssat/tailwind-shift/master.svg?style=flat-square)](https://travis-ci.org/awssat/tailwind-shift)
 
 

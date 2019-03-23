@@ -71,11 +71,12 @@ class ConfigFileFixer
         $options = $match[1] ?? '';
         $updatedToThemeKey = "module.exports = {\n" . $options . "\n\n\ttheme: {\n";
 
-        $this->searchAndReplace->perform('module.exports\*=\s*\{', $updatedToThemeKey, SearchAndReplace::NO_ESCAPE);
+        $this->searchAndReplace->perform('options:\s*\{([^\}]+)\},?', '', SearchAndReplace::NO_ESCAPE);
+        $this->searchAndReplace->perform('module.exports\s*=\s*\{', $updatedToThemeKey, SearchAndReplace::NO_ESCAPE);
 
         //2: add closing } before modules: {
          //3: change modules: {  to variants: {
-        $this->searchAndReplace->perform('modules\:\s*\{',"}\n\nvariants: {", SearchAndReplace::NO_ESCAPE);
+        $this->searchAndReplace->perform('modules\:\s*\{',"},\n\nvariants: {", SearchAndReplace::NO_ESCAPE);
 
         //4: updates keys inside theme: { to new names.
         //5: updates keys inside variants: { to new names.
@@ -157,7 +158,7 @@ class ConfigFileFixer
         $this->searchAndReplace->perform('\s+colors:\s*colors', '  colors: {'.$colors.'}', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('backgroundColor:\s*colors', 'backgroundColor: theme => theme(\'colors\')', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('textColor:\s*colors', 'textColor: theme => theme(\'colors\')', SearchAndReplace::NO_ESCAPE);
-        $this->searchAndReplace->perform('borderColor:\s*([^\n]+)', "borderColor: theme => ({\n\tdefault: theme('colors.grey-light'),\n\t...theme('colors'),\n}),", SearchAndReplace::NO_ESCAPE);
+        $this->searchAndReplace->perform('borderColor:\s*g([^\n]+)', "borderColor: theme => {\nreturn global.Object.assign({ default: theme('colors.gray.300', 'currentColor') }, theme('colors'))\n},", SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('require\(\'tailwindcss\/defaultConfig\'\)\(\)', "require('tailwindcss/defaultConfig')", SearchAndReplace::NO_ESCAPE);
     }
 }

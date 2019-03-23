@@ -101,9 +101,20 @@ class ConsoleHelper
 
         $fixedContent = (new ConfigFileFixer($originalContent))
                     ->fix()
-                    ->get();
+            ->get();
 
-        file_put_contents($filePath, $fixedContent);
+        $lastDotPosition = strrpos($filePath, '.');
+    
+        if ($lastDotPosition !== false && !$this->overwrite) {
+            $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
+        } elseif (!$this->overwrite) {
+            $newFilePath = $filePath.'.tw'; 
+          } else {
+            // Set the new path to the old path to make sure we overwrite it
+            $newFilePath = $filePath;
+        }
+
+        file_put_contents($newFilePath, $fixedContent);
 
         $this->output->writeln('<info>Tailwind config file has been fixed.</info>');
     }

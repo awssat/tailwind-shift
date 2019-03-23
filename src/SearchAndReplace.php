@@ -10,8 +10,8 @@ class SearchAndReplace
 
     protected $givenContent = '';
 
-    public const INSIDE_CLASSE_PROP = 1;
-    public const NO_ESCAPE = 2;
+    const INSIDE_CLASSE_PROP = 1;
+    const NO_ESCAPE = 2;
 
     /**
      * initiate the converter class.

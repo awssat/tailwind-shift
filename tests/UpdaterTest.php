@@ -12,6 +12,7 @@ class UpdaterTest extends TestCase
 
     protected function setUp()
     {
+        //TODO: phpUnit 8 incompatibility, void error.
         $this->updater = new Updater();
     }
 

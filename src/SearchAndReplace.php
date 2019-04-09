@@ -12,6 +12,7 @@ class SearchAndReplace
 
     const INSIDE_CLASSE_PROP = 1;
     const NO_ESCAPE = 2;
+    const AFTER_APPLY_DIRECTIVE = 4;
 
     /**
      * initiate the converter class.
@@ -98,8 +99,16 @@ class SearchAndReplace
     {
         $currentContent = $this->givenContent;
 
-        $regexStart = $options & self::INSIDE_CLASSE_PROP ? '(?<start>class\s*=\s*["\'].*?)' : '(?<start>\s*)';
-        $regexEnd = $options & self::INSIDE_CLASSE_PROP ? '(?<end>.*?["\'])' : '(?<end>\s*)';
+        if ($options & self::INSIDE_CLASSE_PROP) {
+            $regexStart = '(?<start>class\s*=\s*["\'].*?)';
+            $regexEnd = '(?<end>.*?["\'])';
+        } else if($options & self::AFTER_APPLY_DIRECTIVE) {
+            $regexStart = '(?<start>@apply\s*.*?)';
+            $regexEnd = '(?<end>.*?[;\n])';
+        } else {
+            $regexStart = '(?<start>\s*)';
+            $regexEnd = '(?<end>\s*)';
+        }
 
         if ($options ^ self::NO_ESCAPE) {
             $search = preg_quote($search);

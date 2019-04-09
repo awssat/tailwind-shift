@@ -1,0 +1,16 @@
+@tailwind base;
+
+@responsive {
+    .button-blue {
+        @apply .bg-blue-500 .text-white;
+        &:hover {
+            @apply .bg-blue-600 .text-white;
+        }
+
+        &.disabled,
+        &:disabled,
+        &[disabled] {
+            @apply .bg-blue-100 .text-blue-600;
+        }
+    }
+}

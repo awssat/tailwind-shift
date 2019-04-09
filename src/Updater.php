@@ -90,7 +90,12 @@ class Updater
      */
     protected function convertToVersion1_0()
     {
-        if ($this->currentFileExtension == 'css') {
+        $isCSSfile = false;
+
+        if (in_array($this->currentFileExtension, ['css', 'scss'])) {
+
+            $isCSSfile = true;
+
             $cssChanges = [
                     '@tailwind\s*preflight;'                         => '@tailwind base;',
                     '\@import\s*("|\')tailwindcss\/preflight("|\');' => '@import "tailwindcss/base";',
@@ -101,7 +106,6 @@ class Updater
                 $this->searchAndReplace->perform($old, $new, SearchAndReplace::NO_ESCAPE);
             }
 
-            return;
         }
 
         $classes = [
@@ -148,10 +152,14 @@ class Updater
 
         foreach ($classes as $beforeClass => $afterClass) {
             $this->searchAndReplace->perform(
-                    $beforeClass,
-                    $afterClass,
-                    SearchAndReplace::INSIDE_CLASSE_PROP
+                    ($isCSSfile ? '.' : '') . $beforeClass,
+                    ($isCSSfile ? '.' : '') . $afterClass,
+                    $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
             );
+        }
+
+        if($isCSSfile) {
+            return;
         }
 
         foreach ($htmlTags as $beforeTag => $afterTag) {

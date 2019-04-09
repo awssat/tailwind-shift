@@ -93,7 +93,6 @@ class Updater
         $isCSSfile = false;
 
         if (in_array($this->currentFileExtension, ['css', 'scss'])) {
-
             $isCSSfile = true;
 
             $cssChanges = [
@@ -105,7 +104,6 @@ class Updater
             foreach ($cssChanges as $old => $new) {
                 $this->searchAndReplace->perform($old, $new, SearchAndReplace::NO_ESCAPE);
             }
-
         }
 
         $classes = [
@@ -152,13 +150,13 @@ class Updater
 
         foreach ($classes as $beforeClass => $afterClass) {
             $this->searchAndReplace->perform(
-                    ($isCSSfile ? '.' : '') . $beforeClass,
-                    ($isCSSfile ? '.' : '') . $afterClass,
+                    ($isCSSfile ? '.' : '').$beforeClass,
+                    ($isCSSfile ? '.' : '').$afterClass,
                     $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
             );
         }
 
-        if($isCSSfile) {
+        if ($isCSSfile) {
             return;
         }
 

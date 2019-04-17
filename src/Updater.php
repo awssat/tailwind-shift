@@ -92,7 +92,7 @@ class Updater
     {
         $isCSSfile = false;
 
-        if (in_array($this->currentFileExtension, ['css', 'scss'])) {
+        if (in_array($this->currentFileExtension, ['css', 'scss', 'less'])) {
             $isCSSfile = true;
 
             $cssChanges = [

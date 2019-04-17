@@ -102,7 +102,7 @@ class SearchAndReplace
         if ($options & self::INSIDE_CLASSE_PROP) {
             $regexStart = '(?<start>class\s*=\s*["\'].*?)';
             $regexEnd = '(?<end>.*?["\'])';
-        } else if($options & self::AFTER_APPLY_DIRECTIVE) {
+        } elseif ($options & self::AFTER_APPLY_DIRECTIVE) {
             $regexStart = '(?<start>@apply\s*.*?)';
             $regexEnd = '(?<end>.*?[;\n])';
         } else {

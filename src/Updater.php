@@ -127,7 +127,7 @@ class Updater
                 'tracking-wide'  => 'tracking-wider',
 
                 //colors
-                '{regex_string}-grey'                    => '{regex_string}-grey-500',
+                '{regex_string}-grey'                    => '{regex_string}-gray-500',
                 '{regex_string}-red'                     => '{regex_string}-red-500',
                 '{regex_string}-orange'                  => '{regex_string}-orange-500',
                 '{regex_string}-yellow'                  => '{regex_string}-yellow-500',
@@ -143,6 +143,9 @@ class Updater
                 '{regex_string}-{regex_string}-light'    => '{regex_string}-{regex_string}-400',
                 '{regex_string}-{regex_string}-lighter'  => '{regex_string}-{regex_string}-200',
                 '{regex_string}-{regex_string}-lightest' => '{regex_string}-{regex_string}-100',
+
+            //empty variant
+            '{regex_string}:' => '',
         ];
 
         $htmlTags = [
@@ -161,6 +164,7 @@ class Updater
         if($isCSSfile) {
             return;
         }
+
 
         foreach ($htmlTags as $beforeTag => $afterTag) {
             $this->searchAndReplace->perform($beforeTag, $afterTag);

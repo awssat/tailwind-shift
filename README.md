@@ -87,7 +87,7 @@ Then use it like this:
 ```php
 use Awssat\TailwindShift\Updater;
 
-$input = '<div class="text-grey pint-t">hi</div>'; //old tailwindcss code
+$input = '<div class="text-grey pin-t">hi</div>'; //old tailwindcss code
 
 $output = (new Updater)
             ->setContent($input)

@@ -38,4 +38,18 @@ class UpdaterTest extends TestCase
             $this->updater->setContent('<tag class="bg-white hover:no-underline focus:w-100 custom-variant:text-grey"></tag>')->convert()->get()
         );
     }
+
+    /** @test */
+    public function it_convert_multiline_classes()
+    {
+        $this->assertContains(
+            'border-teal-500',
+            $this->updater->setContent('<component
+            class="group cursor-pointer bg-grey-dark"
+            :class="{
+                    \'border-l border-grey-light\': !isResponse,
+                    \'ml-8 md:ml-16 border-l border-teal\': isResponse
+                    }">')->convert()->get()
+        );
+    }
 }

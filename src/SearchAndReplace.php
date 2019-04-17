@@ -131,7 +131,7 @@ class SearchAndReplace
 
         //class=" given given-md something-given-md"
         $this->givenContent = preg_replace_callback(
-            '/'.$regexStart.'(?<given>(?<![\-_.\w\d])'.$search.'(?![\-_.\w\d]))'.$regexEnd.'/i',
+            '/'.$regexStart.'(?<given>(?<![\-_.\w\d])'.$search.'(?![\-_.\w\d]))'.$regexEnd.'/is',
             function ($match) use ($replace) {
                 $replace = preg_replace_callback('/\$\{regex_(\w+)_(\d+)\}/', function ($m) use ($match) {
                     return $match['regex_'.$m[1].'_'.$m[2]];

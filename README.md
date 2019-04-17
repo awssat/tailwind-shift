@@ -1,4 +1,4 @@
-# Tailwind Shift 🚧
+# Tailwind Shift 
 
 ![tailwind-shift](https://i.imgur.com/Ldx09d8.png)
 

@@ -92,10 +92,10 @@ class ConfigFileFixer
             'shadows\:\s*'                          => 'boxShadow: ',
             'svgFill\:\s*'                          => 'fill: ',
             'svgStroke\:\s*'                        => 'stroke: ',
-            'lists\:{regex_line}'      => "listStylePosition:{regex_line}\nlistStyleType:{regex_line}",
-            'position\:{regex_line}'   => "position:{regex_line}\ninset:{regex_line}",
-            'whitespace\:{regex_line}' => "whitespace:{regex_line}\nwordBreak:{regex_line}",
-            'textStyle\:{regex_line}'  => "fontStyle:{regex_line}\nfontSmoothing:{regex_line}".
+            'lists\:{regex_line}'                   => "listStylePosition:{regex_line}\nlistStyleType:{regex_line}",
+            'position\:{regex_line}'                => "position:{regex_line}\ninset:{regex_line}",
+            'whitespace\:{regex_line}'              => "whitespace:{regex_line}\nwordBreak:{regex_line}",
+            'textStyle\:{regex_line}'               => "fontStyle:{regex_line}\nfontSmoothing:{regex_line}".
                                                     "\ntextDecoration:{regex_line}\ntextTransform:{regex_line}",
             'flexbox\:{regex_line}' => "flexDirection:{regex_line}\nflexWrap:{regex_line}".
                                                     "\nalignItems:{regex_line}\nalignSelf:{regex_line}".
@@ -158,7 +158,7 @@ class ConfigFileFixer
         $this->searchAndReplace->perform('textColor:\s*colors', 'textColor: theme => theme(\'colors\')', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('borderColor:\s*g([^\n]+)', "borderColor: theme => {\nreturn global.Object.assign({ default: theme('colors.gray.300', 'currentColor') }, theme('colors'))\n},", SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('require\(\'tailwindcss\/defaultConfig\'\)\(\)', "require('tailwindcss/defaultConfig')", SearchAndReplace::NO_ESCAPE);
-    
-            //TODO: use javascript beautifier package ... 
+
+        //TODO: use javascript beautifier package ...
     }
 }

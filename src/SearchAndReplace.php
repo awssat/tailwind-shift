@@ -118,7 +118,7 @@ class SearchAndReplace
 
         while (true) {
             if (
-                strpos($search, 'regex_string') !== false 
+                strpos($search, 'regex_string') !== false
                 || strpos($search, 'regex_number') !== false
                 || strpos($search, 'regex_line') !== false
                 ) {

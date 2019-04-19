@@ -67,7 +67,7 @@ class ConfigFileFixer
         //1: get options{} values and add em to root of 'module.exports' and add last value as theme: {..
         preg_match('/options:\s*\{([^\}]+)\},?/', $this->searchAndReplace->get(), $match);
         $options = $match[1] ?? '';
-        $updatedToThemeKey = "module.exports = {\n".$options."\n\n\ttheme: {\n";
+        $updatedToThemeKey = "module.exports = {\n".$options."\n\ntheme: {\n";
 
         $this->searchAndReplace->perform('options:\s*\{([^\}]+)\},?', '', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('module.exports\s*=\s*\{', $updatedToThemeKey, SearchAndReplace::NO_ESCAPE);
@@ -92,16 +92,16 @@ class ConfigFileFixer
             'shadows\:\s*'                          => 'boxShadow: ',
             'svgFill\:\s*'                          => 'fill: ',
             'svgStroke\:\s*'                        => 'stroke: ',
-            'lists\:\s*\[\'{regex_string}\'\]'      => "listStylePosition: ['{regex_string}'],\nlistStyleType: ['{regex_string}']",
-            'position\:\s*\[\'{regex_string}\'\]'   => "position: ['{regex_string}'],\ninset: ['{regex_string}']",
-            'whitespace\:\s*\[\'{regex_string}\'\]' => "whitespace: ['{regex_string}'],\nwordBreak: ['{regex_string}']",
-            'textStyle\:\s*\[\'{regex_string}\'\]'  => "fontStyle: ['{regex_string}'],\nfontSmoothing: ['{regex_string}']".
-                                                    ",\ntextDecoration: ['{regex_string}'],\ntextTransform: ['{regex_string}']",
-            'flexbox\:\s*\[\'{regex_string}\'\]' => "flexDirection: ['{regex_string}'],\nflexWrap: ['{regex_string}']".
-                                                    ",\nalignItems: ['{regex_string}'],\nalignSelf: ['{regex_string}']".
-                                                    ",\njustifyContent: ['{regex_string}'],\nalignContent: ['{regex_string}']".
-                                                    ",\nflex: ['{regex_string}'],\nflexGrow: ['{regex_string}']".
-                                                    ",\nflexShrink: ['{regex_string}']",
+            'lists\:{regex_line}'      => "listStylePosition:{regex_line}\nlistStyleType:{regex_line}",
+            'position\:{regex_line}'   => "position:{regex_line}\ninset:{regex_line}",
+            'whitespace\:{regex_line}' => "whitespace:{regex_line}\nwordBreak:{regex_line}",
+            'textStyle\:{regex_line}'  => "fontStyle:{regex_line}\nfontSmoothing:{regex_line}".
+                                                    "\ntextDecoration:{regex_line}\ntextTransform:{regex_line}",
+            'flexbox\:{regex_line}' => "flexDirection:{regex_line}\nflexWrap:{regex_line}".
+                                                    "\nalignItems:{regex_line}\nalignSelf:{regex_line}".
+                                                    "\njustifyContent:{regex_line}\nalignContent:{regex_line}".
+                                                    "\nflex:{regex_line}\nflexGrow:{regex_line}".
+                                                    "\nflexShrink:{regex_line}",
         ];
 
         foreach ($newNames as $old => $new) {
@@ -121,36 +121,36 @@ class ConfigFileFixer
 
         //8: fix colors
         $colors = "\n  transparent: 'transparent',\n\n  black: '#000',\n  white: '#fff',".
-        "\n  gray: {\n\t100: '#f7fafc',\n\t200: '#edf2f7',\n\t300: '#e2e8f0',".
-        "\n\t400: '#cbd5e0',\n\t500: '#a0aec0',\n\t600: '#718096',\n\t700: '#4a5568',".
-        "\n\t800: '#2d3748',\n\t900: '#1a202c',\n\t},\n\t".
-        "\n  red: {\n\t100: '#fff5f5',\n\t200: '#fed7d7',\n\t300: '#feb2b2',\n\t400: '#fc8181',".
-        "\n\t500: '#f56565',\n\t600: '#e53e3e',\n\t700: '#c53030',\n\t800: '#9b2c2c',".
-        "\n\t900: '#742a2a',\n\t},\n\t".
-        "\n   orange: {\n\t100: '#fffaf0',\n\t200: '#feebc8',\n\t300: '#fbd38d',".
-        "\n\t400: '#f6ad55',\n\t500: '#ed8936',\n\t600: '#dd6b20',\n\t700: '#c05621',".
-        "\n\t800: '#9c4221',\n\t900: '#7b341e',\n\t},\n\t".
-        "\n  yellow: {\n\t100: '#fffff0',\n\t200: '#fefcbf',\n\t300: '#faf089',".
-        "\n\t400: '#f6e05e',\n\t500: '#ecc94b',\n\t600: '#d69e2e',\n\t700: '#b7791f',".
-        "\n\t800: '#975a16',\n\t900: '#744210',\n\t},\n\t".
-        "\n  green: {\n\t100: '#f0fff4',\n\t200: '#c6f6d5',\n\t300: '#9ae6b4',".
-        "\n\t400: '#68d391',\n\t500: '#48bb78',\n\t600: '#38a169',\n\t700: '#2f855a',".
-        "\n\t800: '#276749',\n\t900: '#22543d',\n\t},".
-        "\n  teal: {\n\t100: '#e6fffa',\n\t200: '#b2f5ea',\n\t300: '#81e6d9',".
-        "\n\t400: '#4fd1c5',\n\t500: '#38b2ac',\n\t600: '#319795',\n\t700: '#2c7a7b',".
-        "\n\t800: '#285e61',\n\t900: '#234e52',\n\t},\n\t".
-        "\n  blue: {\n\t100: '#ebf8ff',\n\t200: '#bee3f8',\n\t300: '#90cdf4',".
-        "\n\t400: '#63b3ed',\n\t500: '#4299e1',\n\t600: '#3182ce',\n\t700: '#2b6cb0', ".
-        "\n\t800: '#2c5282',\n\t900: '#2a4365',\n\t},".
-        "\n  indigo: {\n\t100: '#ebf4ff',\n\t200: '#c3dafe',\n\t300: '#a3bffa',".
-        "\n\t400: '#7f9cf5',\n\t500: '#667eea',\n\t600: '#5a67d8',\n\t700: '#4c51bf',".
-        "\n\t800: '#434190',\n\t900: '#3c366b',\n\t},\n\t".
-        "\n  purple: {\n\t100: '#faf5ff',\n\t200: '#e9d8fd',\n\t300: '#d6bcfa',".
-        "\n\t400: '#b794f4',\n\t500: '#9f7aea',\n\t600: '#805ad5',\n\t700: '#6b46c1',".
-        "\n\t800: '#553c9a',\n\t900: '#44337a',\n\t},\n\t".
-        "\n  pink: {\n\t100: '#fff5f7',\n\t200: '#fed7e2',\n\t300: '#fbb6ce',".
-        "\n\t400: '#f687b3',\n\t500: '#ed64a6',\n\t600: '#d53f8c',\n\t700: '#b83280',".
-        "\n\t800: '#97266d',\n\t900: '#702459',\n\t},\n";
+        "\n  gray: {\n100: '#f7fafc',\n200: '#edf2f7',\n300: '#e2e8f0',".
+        "\n400: '#cbd5e0',\n500: '#a0aec0',\n600: '#718096',\n700: '#4a5568',".
+        "\n800: '#2d3748',\n900: '#1a202c',\n},\n".
+        "\n  red: {\n100: '#fff5f5',\n200: '#fed7d7',\n300: '#feb2b2',\n400: '#fc8181',".
+        "\n500: '#f56565',\n600: '#e53e3e',\n700: '#c53030',\n800: '#9b2c2c',".
+        "\n900: '#742a2a',\n},\n".
+        "\n   orange: {\n100: '#fffaf0',\n200: '#feebc8',\n300: '#fbd38d',".
+        "\n400: '#f6ad55',\n500: '#ed8936',\n600: '#dd6b20',\n700: '#c05621',".
+        "\n800: '#9c4221',\n900: '#7b341e',\n},\n".
+        "\n  yellow: {\n100: '#fffff0',\n200: '#fefcbf',\n300: '#faf089',".
+        "\n400: '#f6e05e',\n500: '#ecc94b',\n600: '#d69e2e',\n700: '#b7791f',".
+        "\n800: '#975a16',\n900: '#744210',\n},\n".
+        "\n  green: {\n100: '#f0fff4',\n200: '#c6f6d5',\n300: '#9ae6b4',".
+        "\n400: '#68d391',\n500: '#48bb78',\n600: '#38a169',\n700: '#2f855a',".
+        "\n800: '#276749',\n900: '#22543d',\n},".
+        "\n  teal: {\n100: '#e6fffa',\n200: '#b2f5ea',\n300: '#81e6d9',".
+        "\n400: '#4fd1c5',\n500: '#38b2ac',\n600: '#319795',\n700: '#2c7a7b',".
+        "\n800: '#285e61',\n900: '#234e52',\n},\n".
+        "\n  blue: {\n100: '#ebf8ff',\n200: '#bee3f8',\n300: '#90cdf4',".
+        "\n400: '#63b3ed',\n500: '#4299e1',\n600: '#3182ce',\n700: '#2b6cb0', ".
+        "\n800: '#2c5282',\n900: '#2a4365',\n},".
+        "\n  indigo: {\n100: '#ebf4ff',\n200: '#c3dafe',\n300: '#a3bffa',".
+        "\n400: '#7f9cf5',\n500: '#667eea',\n600: '#5a67d8',\n700: '#4c51bf',".
+        "\n800: '#434190',\n900: '#3c366b',\n},\n".
+        "\n  purple: {\n100: '#faf5ff',\n200: '#e9d8fd',\n300: '#d6bcfa',".
+        "\n400: '#b794f4',\n500: '#9f7aea',\n600: '#805ad5',\n700: '#6b46c1',".
+        "\n800: '#553c9a',\n900: '#44337a',\n},\n".
+        "\n  pink: {\n100: '#fff5f7',\n200: '#fed7e2',\n300: '#fbb6ce',".
+        "\n400: '#f687b3',\n500: '#ed64a6',\n600: '#d53f8c',\n700: '#b83280',".
+        "\n800: '#97266d',\n900: '#702459',\n},\n";
 
         $this->searchAndReplace->perform('let colors\s*=\s*\{([^\}]+)\}', '', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('\s+colors:\s*colors', '  colors: {'.$colors.'}', SearchAndReplace::NO_ESCAPE);
@@ -158,5 +158,7 @@ class ConfigFileFixer
         $this->searchAndReplace->perform('textColor:\s*colors', 'textColor: theme => theme(\'colors\')', SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('borderColor:\s*g([^\n]+)', "borderColor: theme => {\nreturn global.Object.assign({ default: theme('colors.gray.300', 'currentColor') }, theme('colors'))\n},", SearchAndReplace::NO_ESCAPE);
         $this->searchAndReplace->perform('require\(\'tailwindcss\/defaultConfig\'\)\(\)', "require('tailwindcss/defaultConfig')", SearchAndReplace::NO_ESCAPE);
+    
+            //TODO: use javascript beautifier package ... 
     }
 }

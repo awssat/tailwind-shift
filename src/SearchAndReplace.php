@@ -117,11 +117,15 @@ class SearchAndReplace
         $currentSubstitute = 0;
 
         while (true) {
-            if (strpos($search, '\{regex_string\}') !== false || strpos($search, '\{regex_number\}') !== false) {
+            if (
+                strpos($search, 'regex_string') !== false 
+                || strpos($search, 'regex_number') !== false
+                || strpos($search, 'regex_line') !== false
+                ) {
                 $currentSubstitute++;
-                foreach (['regex_string'=> '[a-zA-Z0-9]+', 'regex_number' => '[0-9]+'] as $regeName => $regexValue) {
-                    $search = preg_replace('/\\\{'.$regeName.'\\\}/', '(?<'.$regeName.'_'.$currentSubstitute.'>'.$regexValue.')', $search, 1);
-                    $replace = preg_replace('/\{'.$regeName.'\}/', '${'.$regeName.'_'.$currentSubstitute.'}', $replace, 1);
+                foreach (['regex_string'=> '[a-zA-Z0-9]+', 'regex_number' => '[0-9]+', 'regex_line' => '[^\n]+'] as $regeName => $regexValue) {
+                    $search = preg_replace('/\\\\?\{'.$regeName.'\\\\?\}/', '(?<'.substr($regeName, 6).'_'.$currentSubstitute.'>'.$regexValue.')', $search, 1);
+                    $replace = preg_replace('/\\\\?\{'.$regeName.'\\\\?\}/', '${'.substr($regeName, 6).'_'.$currentSubstitute.'}', $replace);
                 }
                 continue;
             }
@@ -133,8 +137,8 @@ class SearchAndReplace
         $this->givenContent = preg_replace_callback(
             '/'.$regexStart.'(?<given>(?<![\-_.\w\d])'.$search.'(?![\-_.\w\d]))'.$regexEnd.'/is',
             function ($match) use ($replace) {
-                $replace = preg_replace_callback('/\$\{regex_(\w+)_(\d+)\}/', function ($m) use ($match) {
-                    return $match['regex_'.$m[1].'_'.$m[2]];
+                $replace = preg_replace_callback('/\$\{(number|string|line)_(\d+)\}/', function ($m) use ($match) {
+                    return $match[$m[1].'_'.$m[2]];
                 }, $replace);
 
                 return $match['start'].$replace.$match['end'];

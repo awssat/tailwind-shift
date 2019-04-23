@@ -52,4 +52,40 @@ class UpdaterTest extends TestCase
                     }">')->convert()->get()
         );
     }
+
+    /** @test */
+    public function it_convert_class_content_only()
+    {
+        $this->assertContains(
+            'http://www.w3.org/2000/svg',
+            $this->updater->setContent('<svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg"')->convert()->get()
+        );
+
+        $code = '<span class="text-grey-100 text-sm pr-4">{{ Auth::user()->name }}</span>
+            <div v-if="showExtraButtons" class="ml-4">
+                Selected: {{ selectedUsers.length }}
+            </div>
+            <span class="pin-t mt-3"></span>
+            <button-orange></button-orange>
+            <span class="pin-t mt-3"></span>
+            ';
+
+        $convertedCode = $this->updater->setContent($code)->convert()->get();
+
+        $this->assertContains(
+            '{{ Auth::user()->name }}',
+            $convertedCode
+        );
+
+        $this->assertContains(
+            'Selected: ',
+            $convertedCode
+        );
+
+        $this->assertContains(
+            '<button-orange>',
+            $convertedCode
+        );
+    }
+
 }

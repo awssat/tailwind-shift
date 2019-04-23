@@ -100,8 +100,8 @@ class SearchAndReplace
         $currentContent = $this->givenContent;
 
         if ($options & self::INSIDE_CLASSE_PROP) {
-            $regexStart = '(?<start>class\s*=\s*["\'].*?)';
-            $regexEnd = '(?<end>.*?["\'])';
+            $regexStart = '(?<start>class\s*=\s*(?<quotation>["\'])((?!\k<quotation>).)*)';
+            $regexEnd = '(?<end>((?!\k<quotation>).)*\k<quotation>)';
         } elseif ($options & self::AFTER_APPLY_DIRECTIVE) {
             $regexStart = '(?<start>@apply\s*.*?)';
             $regexEnd = '(?<end>.*?[;\n])';

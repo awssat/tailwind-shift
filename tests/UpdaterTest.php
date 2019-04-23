@@ -87,5 +87,4 @@ class UpdaterTest extends TestCase
             $convertedCode
         );
     }
-
 }

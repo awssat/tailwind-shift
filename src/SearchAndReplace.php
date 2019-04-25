@@ -125,7 +125,7 @@ class SearchAndReplace
                 $currentSubstitute++;
                 foreach (['regex_string'=> '[a-zA-Z0-9]+', 'regex_number' => '[0-9]+', 'regex_line' => '[^\n]+'] as $regeName => $regexValue) {
                     $search = preg_replace('/\\\\?\{'.$regeName.'\\\\?\}/', '(?<'.substr($regeName, 6).'_'.$currentSubstitute.'>'.$regexValue.')', $search, 1);
-                    $replace = preg_replace('/\\\\?\{'.$regeName.'\\\\?\}/', '${'.substr($regeName, 6).'_'.$currentSubstitute.'}', $replace);
+                    $replace = preg_replace('/\\\\?\{'.$regeName.'\\\\?\}/', '${'.substr($regeName, 6).'_'.$currentSubstitute.'}', $replace, 1);
                 }
                 continue;
             }

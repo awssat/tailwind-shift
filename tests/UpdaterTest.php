@@ -87,4 +87,18 @@ class UpdaterTest extends TestCase
             $convertedCode
         );
     }
+
+    /** @test */
+    public function it_convert_colors()
+    {
+        $this->assertEquals(
+            'class="border-teal-500"',
+            $this->updater->setContent('class="border-teal"')->convert()->get()
+        );
+
+        $this->assertEquals(
+            'class="bg-blue-600 border-green-900"',
+            $this->updater->setContent('class="bg-blue-dark border-green-darkest"')->convert()->get()
+        );
+    }
 }

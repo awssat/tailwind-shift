@@ -2,7 +2,7 @@
 
 namespace Awssat\TailwindShift\Test;
 
-use Awssat\TailwindShift\searchAndReplace;
+use Awssat\TailwindShift\SearchAndReplace;
 use PHPUnit\Framework\TestCase;
 
 class SearchAndReplaceTest extends TestCase

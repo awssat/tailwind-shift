@@ -21,8 +21,8 @@ class SearchAndReplaceTest extends TestCase
     {
         $this->searchAndReplace
         ->setContent('<tag class="life-is-sad"></tag>')
-        ->perform('{regex_string}-{regex_string}-sad', 
-                '{regex_string}-{regex_string}-fun', 
+        ->perform('{regex_string}-{regex_string}-sad',
+                '{regex_string}-{regex_string}-fun',
                 SearchAndReplace::INSIDE_CLASSE_PROP
             );
 
@@ -37,8 +37,8 @@ class SearchAndReplaceTest extends TestCase
     {
         $this->searchAndReplace
         ->setContent('<tag class="life-is-sad"></tag>')
-        ->perform('life-is-{regex_string}', 
-                '{regex_string}-is-{regex_string}', 
+        ->perform('life-is-{regex_string}',
+                '{regex_string}-is-{regex_string}',
                 SearchAndReplace::INSIDE_CLASSE_PROP
             );
 

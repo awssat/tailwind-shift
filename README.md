@@ -7,7 +7,7 @@
 [![Build Status](https://img.shields.io/travis/awssat/tailwind-shift/master.svg?style=flat-square)](https://travis-ci.org/awssat/tailwind-shift)
 
 A helper tool to upgrade your current codes of a project to latest version of TailwindCSS without a hassle.
-It's currently support shifting from 0.7.? to 1.0  
+It's currently support shifting from 0.7.x to 1.0  
 
 ## Installing `tailwind-shift`
 
@@ -34,7 +34,7 @@ This will generate new files (i.e: `view.tw.php`) as a safety procedure, you cou
 
 
 
-## Advanced Usses of the command
+## Advanced Uses of the command
 ### Possible Options
 #### Update a directory (just the files in this directory, it's not recursive)
 ```bash

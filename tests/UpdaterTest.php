@@ -10,7 +10,7 @@ class UpdaterTest extends TestCase
     /** @var \Awssat\TailwindShift\Updater */
     protected $updater;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         //TODO: phpUnit 8 incompatibility, void error.
         $this->updater = new Updater();
@@ -42,7 +42,7 @@ class UpdaterTest extends TestCase
     /** @test */
     public function it_convert_multiline_classes()
     {
-        $this->assertContains(
+        $this->assertStringContainsString(
             'border-teal-500',
             $this->updater->setContent('<component
             class="group cursor-pointer bg-grey-dark"
@@ -56,7 +56,7 @@ class UpdaterTest extends TestCase
     /** @test */
     public function it_convert_class_content_only()
     {
-        $this->assertContains(
+        $this->assertStringContainsString(
             'http://www.w3.org/2000/svg',
             $this->updater->setContent('<svg class="fill-current h-6 w-6" xmlns="http://www.w3.org/2000/svg"')->convert()->get()
         );
@@ -72,17 +72,17 @@ class UpdaterTest extends TestCase
 
         $convertedCode = $this->updater->setContent($code)->convert()->get();
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '{{ Auth::user()->name }}',
             $convertedCode
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Selected: ',
             $convertedCode
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             '<button-orange>',
             $convertedCode
         );

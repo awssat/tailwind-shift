@@ -28,7 +28,8 @@ class ConsoleHelper
         if ($this->recursive) {
             $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator(
-                    $folderPath, \RecursiveDirectoryIterator::SKIP_DOTS
+                    $folderPath,
+                    \RecursiveDirectoryIterator::SKIP_DOTS
                 ),
                 \RecursiveIteratorIterator::SELF_FIRST,
                 \RecursiveIteratorIterator::CATCH_GET_CHILD

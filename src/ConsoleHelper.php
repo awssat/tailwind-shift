@@ -23,12 +23,13 @@ class ConsoleHelper
 
     public function folderConvert($folderPath)
     {
-        $this->output->writeln('<question>Start Converting Folder: </question>'.$folderPath);
+        $this->output->writeln('<question>Start Converting Folder: </question>' . $folderPath);
 
         if ($this->recursive) {
             $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator(
-                    $folderPath, \RecursiveDirectoryIterator::SKIP_DOTS
+                    $folderPath,
+                    \RecursiveDirectoryIterator::SKIP_DOTS
                 ),
                 \RecursiveIteratorIterator::SELF_FIRST,
                 \RecursiveIteratorIterator::CATCH_GET_CHILD
@@ -52,7 +53,7 @@ class ConsoleHelper
         $filePath = realpath($filePath);
 
         if (!is_file($filePath)) {
-            $this->output->writeln('<comment>Couldn\'t convert: </comment>'.basename($filePath));
+            $this->output->writeln('<comment>Couldn\'t convert: </comment>' . basename($filePath));
 
             return;
         }
@@ -64,35 +65,35 @@ class ConsoleHelper
         if ($lastDotPosition !== false && !$this->overwrite) {
             $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
         } elseif (!$this->overwrite) {
-            $newFilePath = $filePath.'.tw';
+            $newFilePath = $filePath . '.tw';
         } else {
             // Set the new path to the old path to make sure we overwrite it
             $newFilePath = $filePath;
         }
 
         $newContent = $this->updater
-                    ->setContent($content)
-                    ->setFileExtension($extension)
-                    ->convert()
-                    ->get();
+            ->setContent($content)
+            ->setFileExtension($extension)
+            ->convert()
+            ->get();
 
         if ($content !== $newContent) {
-            $this->output->writeln('<info>Converted: </info>'.basename($newFilePath));
+            $this->output->writeln('<info>Converted: </info>' . basename($newFilePath));
 
             file_put_contents($newFilePath, $newContent);
         } else {
-            $this->output->writeln('<comment>Nothing to convert: </comment>'.basename($filePath));
+            $this->output->writeln('<comment>Nothing to convert: </comment>' . basename($filePath));
         }
     }
 
     public function codeConvert($code)
     {
         $convertedCode = $this->updater
-                    ->setContent($code)
-                    ->convert()
-                    ->get();
+            ->setContent($code)
+            ->convert()
+            ->get();
 
-        $this->output->writeln('<info>Converted Code: </info>'.$convertedCode);
+        $this->output->writeln('<info>Converted Code: </info>' . $convertedCode);
     }
 
     public function fixTailwindConfig($filePath)
@@ -100,7 +101,7 @@ class ConsoleHelper
         $originalContent = file_get_contents($filePath);
 
         $fixedContent = (new ConfigFileFixer($originalContent))
-                    ->fix()
+            ->fix()
             ->get();
 
         $lastDotPosition = strrpos($filePath, '.');
@@ -108,7 +109,7 @@ class ConsoleHelper
         if ($lastDotPosition !== false && !$this->overwrite) {
             $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
         } elseif (!$this->overwrite) {
-            $newFilePath = $filePath.'.tw';
+            $newFilePath = $filePath . '.tw';
         } else {
             // Set the new path to the old path to make sure we overwrite it
             $newFilePath = $filePath;

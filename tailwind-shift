@@ -14,7 +14,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/../../autoload.php';
 }
 
-(new Application('tailwind-shift', '1.0.0'))
+(new Application('tailwind-shift', '1.0.8'))
 
     ->register('tailwind-shift')
 
@@ -39,11 +39,11 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
         }
 
 
-        $replace = (bool)$input->getOption('replace');
+        $replace = (bool) $input->getOption('replace');
 
-        $is_recursive = (bool)$input->getOption('recursive');
+        $is_recursive = (bool) $input->getOption('recursive');
 
-        $fix_config = (bool)$input->getOption('fixconfig');
+        $fix_config = (bool) $input->getOption('fixconfig');
 
         $acceptedExts = array_map('trim', array_map(function ($ext) {
             return trim($ext, '.');

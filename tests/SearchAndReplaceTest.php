@@ -12,7 +12,6 @@ class SearchAndReplaceTest extends TestCase
 
     protected function setUp(): void
     {
-        //TODO: phpUnit 8 incompatibility, void error.
         $this->searchAndReplace = new searchAndReplace();
     }
 
@@ -20,12 +19,12 @@ class SearchAndReplaceTest extends TestCase
     public function it_respects_repeated_regex_search_param()
     {
         $this->searchAndReplace
-        ->setContent('<tag class="life-is-sad"></tag>')
-        ->perform(
-            '{regex_string}-{regex_string}-sad',
-            '{regex_string}-{regex_string}-fun',
-            SearchAndReplace::INSIDE_CLASSE_PROP
-        );
+            ->setContent('<tag class="life-is-sad"></tag>')
+            ->perform(
+                '{regex_string}-{regex_string}-sad',
+                '{regex_string}-{regex_string}-fun',
+                SearchAndReplace::INSIDE_CLASSE_PROP
+            );
 
         $this->assertEquals(
             '<tag class="life-is-fun"></tag>',
@@ -37,12 +36,12 @@ class SearchAndReplaceTest extends TestCase
     public function it_respects_repeated_regex_replace_param()
     {
         $this->searchAndReplace
-        ->setContent('<tag class="life-is-sad"></tag>')
-        ->perform(
-            'life-is-{regex_string}',
-            '{regex_string}-is-{regex_string}',
-            SearchAndReplace::INSIDE_CLASSE_PROP
-        );
+            ->setContent('<tag class="life-is-sad"></tag>')
+            ->perform(
+                'life-is-{regex_string}',
+                '{regex_string}-is-{regex_string}',
+                SearchAndReplace::INSIDE_CLASSE_PROP
+            );
 
         $this->assertEquals(
             '<tag class="sad-is-sad"></tag>',

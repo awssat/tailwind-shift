@@ -96,9 +96,9 @@ class Updater
             $isCSSfile = true;
 
             $cssChanges = [
-                    '@tailwind\s*preflight;'                         => '@tailwind base;',
-                    '\@import\s*("|\')tailwindcss\/preflight("|\');' => '@import "tailwindcss/base";',
-                    'config\('                                       => 'theme(',
+                '@tailwind\s*preflight;'                         => '@tailwind base;',
+                '\@import\s*("|\')tailwindcss\/preflight("|\');' => '@import "tailwindcss/base";',
+                'config\('                                       => 'theme(',
             ];
 
             foreach ($cssChanges as $old => $new) {
@@ -107,57 +107,57 @@ class Updater
         }
 
         $classes = [
-                'list-reset'     => 'list-none p-0',
-                'pin-none'       => 'inset-auto',
-                'pin'            => 'inset-0',
-                'pin-y'          => 'inset-y-0',
-                'pin-x'          => 'inset-x-0',
-                'pin-t'          => 'top-0',
-                'pin-r'          => 'right-0',
-                'pin-l'          => 'left-0',
-                'pin-b'          => 'bottom-0',
-                'roman'          => 'not-italic',
-                'flex-no-grow'   => 'flex-grow-0',
-                'flex-no-shrink' => 'flex-shrink-0',
-                'flex-no-shrink' => 'flex-shrink-0',
-                'no-underline'   => '',
-                'tracking-tight' => 'tracking-tighter',
-                'tracking-wide'  => 'tracking-wider',
+            'list-reset'     => 'list-none p-0',
+            'pin-none'       => 'inset-auto',
+            'pin'            => 'inset-0',
+            'pin-y'          => 'inset-y-0',
+            'pin-x'          => 'inset-x-0',
+            'pin-t'          => 'top-0',
+            'pin-r'          => 'right-0',
+            'pin-l'          => 'left-0',
+            'pin-b'          => 'bottom-0',
+            'roman'          => 'not-italic',
+            'flex-no-grow'   => 'flex-grow-0',
+            'flex-no-shrink' => 'flex-shrink-0',
+            'flex-no-shrink' => 'flex-shrink-0',
+            'tracking-tight' => 'tracking-tighter',
+            'tracking-wide'  => 'tracking-wider',
 
-                //colors
-                '{regex_string}-grey'                    => '{regex_string}-gray-500',
-                '{regex_string}-red'                     => '{regex_string}-red-500',
-                '{regex_string}-orange'                  => '{regex_string}-orange-500',
-                '{regex_string}-yellow'                  => '{regex_string}-yellow-500',
-                '{regex_string}-green'                   => '{regex_string}-green-500',
-                '{regex_string}-teal'                    => '{regex_string}-teal-500',
-                '{regex_string}-blue'                    => '{regex_string}-blue-500',
-                '{regex_string}-indigo'                  => '{regex_string}-indigo-500',
-                '{regex_string}-purple'                  => '{regex_string}-purple-500',
-                '{regex_string}-pink'                    => '{regex_string}-pink-500',
-                '{regex_string}-{regex_string}-darkest'  => '{regex_string}-{regex_string}-900',
-                '{regex_string}-{regex_string}-darker'   => '{regex_string}-{regex_string}-800',
-                '{regex_string}-{regex_string}-dark'     => '{regex_string}-{regex_string}-600',
-                '{regex_string}-{regex_string}-light'    => '{regex_string}-{regex_string}-400',
-                '{regex_string}-{regex_string}-lighter'  => '{regex_string}-{regex_string}-200',
-                '{regex_string}-{regex_string}-lightest' => '{regex_string}-{regex_string}-100',
-
-            //empty variant
-            '{regex_string}:' => '',
+            //colors
+            '{regex_string}-grey'                    => '{regex_string}-gray-500',
+            '{regex_string}-red'                     => '{regex_string}-red-500',
+            '{regex_string}-orange'                  => '{regex_string}-orange-500',
+            '{regex_string}-yellow'                  => '{regex_string}-yellow-500',
+            '{regex_string}-green'                   => '{regex_string}-green-500',
+            '{regex_string}-teal'                    => '{regex_string}-teal-500',
+            '{regex_string}-blue'                    => '{regex_string}-blue-500',
+            '{regex_string}-indigo'                  => '{regex_string}-indigo-500',
+            '{regex_string}-purple'                  => '{regex_string}-purple-500',
+            '{regex_string}-pink'                    => '{regex_string}-pink-500',
+            '{regex_string}-{regex_string}-darkest'  => '{regex_string}-{regex_string}-900',
+            '{regex_string}-{regex_string}-darker'   => '{regex_string}-{regex_string}-800',
+            '{regex_string}-{regex_string}-dark'     => '{regex_string}-{regex_string}-600',
+            '{regex_string}-{regex_string}-light'    => '{regex_string}-{regex_string}-400',
+            '{regex_string}-{regex_string}-lighter'  => '{regex_string}-{regex_string}-200',
+            '{regex_string}-{regex_string}-lightest' => '{regex_string}-{regex_string}-100',
         ];
 
         $htmlTags = [
-                '<h1>' => '<h1 class="text-xl font-semibold">',
-                '<ul>' => '<ul class="list-disc pl-4">',
+            '<h1>' => '<h1 class="text-xl font-semibold">',
+            '<ul>' => '<ul class="list-disc pl-4">',
         ];
 
         foreach ($classes as $beforeClass => $afterClass) {
             $this->searchAndReplace->perform(
-                    ($isCSSfile ? '.' : '').$beforeClass,
-                    ($isCSSfile ? '.' : '').$afterClass,
-                    $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
+                ($isCSSfile ? '.' : '') . $beforeClass,
+                ($isCSSfile ? '.' : '') . $afterClass,
+                $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
             );
         }
+
+        //empty variant
+        $this->searchAndReplace->perform(($isCSSfile ? '\.' : '(?>[a-z]+:)?') . 'no-underline', '', SearchAndReplace::NO_ESCAPE);
+
 
         if ($isCSSfile) {
             return;

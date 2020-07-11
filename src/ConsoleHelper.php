@@ -23,7 +23,7 @@ class ConsoleHelper
 
     public function folderConvert($folderPath)
     {
-        $this->output->writeln('<question>Start Converting Folder: </question>' . $folderPath);
+        $this->output->writeln('<question>Start Converting Folder: </question>'.$folderPath);
 
         if ($this->recursive) {
             $iterator = new \RecursiveIteratorIterator(
@@ -53,7 +53,7 @@ class ConsoleHelper
         $filePath = realpath($filePath);
 
         if (!is_file($filePath)) {
-            $this->output->writeln('<comment>Couldn\'t convert: </comment>' . basename($filePath));
+            $this->output->writeln('<comment>Couldn\'t convert: </comment>'.basename($filePath));
 
             return;
         }
@@ -65,7 +65,7 @@ class ConsoleHelper
         if ($lastDotPosition !== false && !$this->overwrite) {
             $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
         } elseif (!$this->overwrite) {
-            $newFilePath = $filePath . '.tw';
+            $newFilePath = $filePath.'.tw';
         } else {
             // Set the new path to the old path to make sure we overwrite it
             $newFilePath = $filePath;
@@ -78,11 +78,11 @@ class ConsoleHelper
             ->get();
 
         if ($content !== $newContent) {
-            $this->output->writeln('<info>Converted: </info>' . basename($newFilePath));
+            $this->output->writeln('<info>Converted: </info>'.basename($newFilePath));
 
             file_put_contents($newFilePath, $newContent);
         } else {
-            $this->output->writeln('<comment>Nothing to convert: </comment>' . basename($filePath));
+            $this->output->writeln('<comment>Nothing to convert: </comment>'.basename($filePath));
         }
     }
 
@@ -93,7 +93,7 @@ class ConsoleHelper
             ->convert()
             ->get();
 
-        $this->output->writeln('<info>Converted Code: </info>' . $convertedCode);
+        $this->output->writeln('<info>Converted Code: </info>'.$convertedCode);
     }
 
     public function fixTailwindConfig($filePath)
@@ -109,7 +109,7 @@ class ConsoleHelper
         if ($lastDotPosition !== false && !$this->overwrite) {
             $newFilePath = substr_replace($filePath, '.tw', $lastDotPosition, 0);
         } elseif (!$this->overwrite) {
-            $newFilePath = $filePath . '.tw';
+            $newFilePath = $filePath.'.tw';
         } else {
             // Set the new path to the old path to make sure we overwrite it
             $newFilePath = $filePath;

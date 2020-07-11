@@ -124,9 +124,9 @@ class SearchAndReplace
             ) {
                 $currentSubstitute++;
                 foreach (['regex_string' => '[a-zA-Z0-9]+', 'regex_number' => '[0-9]+', 'regex_line' => '[^\n]+'] as $regexName => $regexValue) {
-                    $regexMatchCount = preg_match_all('/\\\\?\{' . $regexName . '\\\\?\}/', $search);
-                    $search = preg_replace('/\\\\?\{' . $regexName . '\\\\?\}/', '(?<' . substr($regexName, 6) . '_' . $currentSubstitute . '>' . $regexValue . ')', $search, 1);
-                    $replace = preg_replace('/\\\\?\{' . $regexName . '\\\\?\}/', '${' . substr($regexName, 6) . '_' . $currentSubstitute . '}', $replace, $regexMatchCount > 1 ? 1 : -1);
+                    $regexMatchCount = preg_match_all('/\\\\?\{'.$regexName.'\\\\?\}/', $search);
+                    $search = preg_replace('/\\\\?\{'.$regexName.'\\\\?\}/', '(?<'.substr($regexName, 6).'_'.$currentSubstitute.'>'.$regexValue.')', $search, 1);
+                    $replace = preg_replace('/\\\\?\{'.$regexName.'\\\\?\}/', '${'.substr($regexName, 6).'_'.$currentSubstitute.'}', $replace, $regexMatchCount > 1 ? 1 : -1);
                 }
                 continue;
             }
@@ -136,13 +136,13 @@ class SearchAndReplace
 
         //class=" given given-md something-given-md"
         $this->givenContent = preg_replace_callback(
-            '/' . $regexStart . '(?<given>(?<![\-_.\w\d])' . $search . '(?![\-_.\w\d]))' . $regexEnd . '/is',
+            '/'.$regexStart.'(?<given>(?<![\-_.\w\d])'.$search.'(?![\-_.\w\d]))'.$regexEnd.'/is',
             function ($match) use ($replace) {
                 $replace = preg_replace_callback('/\$\{(number|string|line)_(\d+)\}/', function ($m) use ($match) {
-                    return $match[$m[1] . '_' . $m[2]];
+                    return $match[$m[1].'_'.$m[2]];
                 }, $replace);
 
-                return $match['start'] . $replace . $match['end'];
+                return $match['start'].$replace.$match['end'];
             },
             $this->givenContent
         );

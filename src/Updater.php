@@ -149,15 +149,14 @@ class Updater
 
         foreach ($classes as $beforeClass => $afterClass) {
             $this->searchAndReplace->perform(
-                ($isCSSfile ? '.' : '') . $beforeClass,
-                ($isCSSfile ? '.' : '') . $afterClass,
+                ($isCSSfile ? '.' : '').$beforeClass,
+                ($isCSSfile ? '.' : '').$afterClass,
                 $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
             );
         }
 
         //empty variant
-        $this->searchAndReplace->perform(($isCSSfile ? '\.' : '(?>[a-z]+:)?') . 'no-underline', '', SearchAndReplace::NO_ESCAPE);
-
+        $this->searchAndReplace->perform(($isCSSfile ? '\.' : '(?>[a-z]+:)?').'no-underline', '', SearchAndReplace::NO_ESCAPE);
 
         if ($isCSSfile) {
             return;

@@ -21,10 +21,10 @@ class ConfigFileFixerTest extends TestCase
     {
         $this->assertStringContainsString(
             'theme:',
-            $this->configFixer->setContent("let colors = {}; 
+            $this->configFixer->setContent('let colors = {}; 
             module.exports = {
                 colors: colors,
-            }")->fix()->get()
+            }')->fix()->get()
         );
     }
 }

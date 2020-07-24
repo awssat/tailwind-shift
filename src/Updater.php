@@ -155,9 +155,9 @@ class Updater
             $this->searchAndReplace
                 ->isAfterApply($isCSSfile)
                 ->perform(
-                ($isCSSfile ? '.' : '').$beforeClass,
-                ($isCSSfile ? '.' : '').$afterClass
-            );
+                    ($isCSSfile ? '.' : '').$beforeClass,
+                    ($isCSSfile ? '.' : '').$afterClass
+                );
         }
 
         //empty variant
@@ -166,7 +166,7 @@ class Updater
                         ->isInlineCSS(false)
                         ->isAfterApply(false)
                         ->perform(($isCSSfile ? '\.' : '(?>[a-z-]+:)?').'no-underline', '');
-    
+
         if ($isCSSfile) {
             return;
         }

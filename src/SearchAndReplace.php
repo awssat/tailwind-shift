@@ -43,6 +43,7 @@ class SearchAndReplace
         if ($toggle) {
             $this->afterApply = false;
         }
+
         return $this;
     }
 
@@ -52,6 +53,7 @@ class SearchAndReplace
         if ($toggle) {
             $this->inlineCSS = false;
         }
+
         return $this;
     }
 
@@ -146,10 +148,10 @@ class SearchAndReplace
             $replace = $callableReplace();
         }
 
-        $regexStart = $this->afterApply ?  '(?<start>@apply\s*.*?)' : '(?<start>\s*)';
+        $regexStart = $this->afterApply ? '(?<start>@apply\s*.*?)' : '(?<start>\s*)';
         $regexEnd = $this->afterApply ? '(?<end>.*?[;\n])' : '(?<end>\s*)';
 
-        if($this->inlineCSS) {
+        if ($this->inlineCSS) {
             $regexStart = '(?<start>class\s*=\s*(?<quotation>["\'])((?!\k<quotation>).)*)';
             $regexEnd = '(?<end>((?!\k<quotation>).)*\k<quotation>)';
         }

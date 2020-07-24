@@ -34,6 +34,11 @@ class UpdaterTest extends TestCase
         );
 
         $this->assertEquals(
+            '<tag class="hover:text-gray-600"></tag>',
+            $this->updater->setContent('<tag class="hover:text-grey-dark"></tag>')->convert()->get()
+        );
+
+        $this->assertEquals(
             '<tag class="bg-white  focus:w-100 custom-variant:text-gray-500"></tag>',
             $this->updater->setContent('<tag class="bg-white hover:no-underline focus:w-100 custom-variant:text-grey"></tag>')->convert()->get()
         );

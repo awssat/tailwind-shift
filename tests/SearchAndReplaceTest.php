@@ -20,10 +20,10 @@ class SearchAndReplaceTest extends TestCase
     {
         $this->searchAndReplace
             ->setContent('<tag class="life-is-sad"></tag>')
+            ->isInlineCSS(true)
             ->perform(
                 '{regex_string}-{regex_string}-sad',
-                '{regex_string}-{regex_string}-fun',
-                SearchAndReplace::INSIDE_CLASSE_PROP
+                '{regex_string}-{regex_string}-fun'
             );
 
         $this->assertEquals(
@@ -37,10 +37,10 @@ class SearchAndReplaceTest extends TestCase
     {
         $this->searchAndReplace
             ->setContent('<tag class="life-is-sad"></tag>')
+            ->isInlineCSS(true)
             ->perform(
                 'life-is-{regex_string}',
-                '{regex_string}-is-{regex_string}',
-                SearchAndReplace::INSIDE_CLASSE_PROP
+                '{regex_string}-is-{regex_string}'
             );
 
         $this->assertEquals(

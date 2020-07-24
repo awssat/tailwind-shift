@@ -10,9 +10,11 @@ class SearchAndReplace
 
     protected $givenContent = '';
 
-    const INSIDE_CLASSE_PROP = 1;
-    const NO_ESCAPE = 2;
-    const AFTER_APPLY_DIRECTIVE = 4;
+    protected $escape = true;
+
+    protected $inlineCSS = false;
+
+    protected $afterApply = false;
 
     /**
      * initiate the converter class.
@@ -25,6 +27,31 @@ class SearchAndReplace
     {
         $this->givenContent = $content;
 
+        return $this;
+    }
+
+    public function shouldEscape($toggle): self
+    {
+        $this->escape = $toggle;
+
+        return $this;
+    }
+
+    public function isInlineCSS($toggle)
+    {
+        $this->inlineCSS = $toggle;
+        if ($toggle) {
+            $this->afterApply = false;
+        }
+        return $this;
+    }
+
+    public function isAfterApply($toggle)
+    {
+        $this->afterApply = $toggle;
+        if ($toggle) {
+            $this->inlineCSS = false;
+        }
         return $this;
     }
 
@@ -87,30 +114,47 @@ class SearchAndReplace
         return false;
     }
 
+    protected function addToLastSearches($search)
+    {
+        $this->changes++;
+
+        $search = stripslashes($search);
+
+        if ($this->isInLastSearches($search)) {
+            return;
+        }
+
+        $this->lastSearches[] = $search;
+
+        if (count($this->lastSearches) >= 50) {
+            array_shift($this->lastSearches);
+        }
+    }
+
     /**
      * Search the given content and replace.
      *
      * @param string $search
      * @param string $replace
-     *
-     * @return null
      */
-    public function perform($search, $replace, $options = null)
+    public function perform($search, $replace)
     {
         $currentContent = $this->givenContent;
 
-        if ($options & self::INSIDE_CLASSE_PROP) {
-            $regexStart = '(?<start>class\s*=\s*(?<quotation>["\'])((?!\k<quotation>).)*)';
-            $regexEnd = '(?<end>((?!\k<quotation>).)*\k<quotation>)';
-        } elseif ($options & self::AFTER_APPLY_DIRECTIVE) {
-            $regexStart = '(?<start>@apply\s*.*?)';
-            $regexEnd = '(?<end>.*?[;\n])';
-        } else {
-            $regexStart = '(?<start>\s*)';
-            $regexEnd = '(?<end>\s*)';
+        if ($replace instanceof \Closure) {
+            $callableReplace = \Closure::bind($replace, $this, self::class);
+            $replace = $callableReplace();
         }
 
-        if ($options ^ self::NO_ESCAPE) {
+        $regexStart = $this->afterApply ?  '(?<start>@apply\s*.*?)' : '(?<start>\s*)';
+        $regexEnd = $this->afterApply ? '(?<end>.*?[;\n])' : '(?<end>\s*)';
+
+        if($this->inlineCSS) {
+            $regexStart = '(?<start>class\s*=\s*(?<quotation>["\'])((?!\k<quotation>).)*)';
+            $regexEnd = '(?<end>((?!\k<quotation>).)*\k<quotation>)';
+        }
+
+        if ($this->escape) {
             $search = preg_quote($search);
         }
 
@@ -156,5 +200,7 @@ class SearchAndReplace
                 $this->lastSearches = array_slice($this->lastSearches, -10, 10, true);
             }
         }
+
+        return $this;
     }
 }

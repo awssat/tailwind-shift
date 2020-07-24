@@ -74,7 +74,7 @@ class Updater
     }
 
     /**
-     * Get the number of comitted changes.
+     * Get the number of committed changes.
      *
      * @return int
      */
@@ -102,7 +102,10 @@ class Updater
             ];
 
             foreach ($cssChanges as $old => $new) {
-                $this->searchAndReplace->perform($old, $new, SearchAndReplace::NO_ESCAPE);
+                $this->searchAndReplace
+                        ->isInlineCSS(!$isCSSfile)
+                        ->shouldEscape(false)
+                        ->perform($old, $new);
             }
         }
 
@@ -125,6 +128,7 @@ class Updater
 
             //colors
             '{regex_string}-grey'                    => '{regex_string}-gray-500',
+            '{regex_string}-grey-{regex_string}'     => '{regex_string}-gray-{regex_string}',
             '{regex_string}-red'                     => '{regex_string}-red-500',
             '{regex_string}-orange'                  => '{regex_string}-orange-500',
             '{regex_string}-yellow'                  => '{regex_string}-yellow-500',
@@ -148,22 +152,29 @@ class Updater
         ];
 
         foreach ($classes as $beforeClass => $afterClass) {
-            $this->searchAndReplace->perform(
+            $this->searchAndReplace
+                ->isAfterApply($isCSSfile)
+                ->perform(
                 ($isCSSfile ? '.' : '').$beforeClass,
-                ($isCSSfile ? '.' : '').$afterClass,
-                $isCSSfile ? SearchAndReplace::AFTER_APPLY_DIRECTIVE : SearchAndReplace::INSIDE_CLASSE_PROP
+                ($isCSSfile ? '.' : '').$afterClass
             );
         }
 
         //empty variant
-        $this->searchAndReplace->perform(($isCSSfile ? '\.' : '(?>[a-z]+:)?').'no-underline', '', SearchAndReplace::NO_ESCAPE);
-
+        $this->searchAndReplace
+                        ->shouldEscape(false)
+                        ->isInlineCSS(false)
+                        ->isAfterApply(false)
+                        ->perform(($isCSSfile ? '\.' : '(?>[a-z-]+:)?').'no-underline', '');
+    
         if ($isCSSfile) {
             return;
         }
 
         foreach ($htmlTags as $beforeTag => $afterTag) {
-            $this->searchAndReplace->perform($beforeTag, $afterTag);
+            $this->searchAndReplace
+            ->isInlineCSS(!$isCSSfile)
+            ->perform($beforeTag, $afterTag);
         }
     }
 }
